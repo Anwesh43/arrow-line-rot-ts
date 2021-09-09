@@ -202,3 +202,25 @@ class ArrowLineRot {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    alr : ArrowLineRot = new ArrowLineRot()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.alr.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.alr.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.alr.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
